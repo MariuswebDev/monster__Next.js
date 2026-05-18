@@ -15,7 +15,7 @@ export default function Card({
       style={{
         border: variant === "outlined" ? "1px solid #ccc" : "none",
         boxShadow:
-          variant === "elevated" ? "0 2px 8px rgba(207,119,20,0.1)" : "none",
+          variant === "elevated" ? "0 2px 8px rgba(207,119,221,0.1)" : "none",
         padding: "20px",
         borderRadius: "8px",
         cursor: onclick ? "pointer" : "auto",
