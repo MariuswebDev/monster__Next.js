@@ -1,24 +1,27 @@
 "use client";
 import { CardProps } from "./Card.types";
+import "./card.css";
 
 export default function Card({
   title,
   description,
-  children,
   variant = "default",
+  children,
   onClick,
 }: CardProps) {
   return (
     <div
-      className={`card card--${variant}`}
+      className={` card
+    card--${variant}
+    `}
       onClick={onClick}
       style={{
-        border: variant === "outlined" ? "1px solid #ccc" : "none",
+        padding: "40px",
+        border: variant === "outline" ? "1px solid blue" : "none",
         boxShadow:
-          variant === "elevated" ? "0 2px 8px rgba(207,119,20,0.1)" : "none",
-        padding: "20px",
-        borderRadius: "8px",
-        cursor: onclick ? "pointer" : "auto",
+          variant === "elevated"
+            ? "0px 2px 15px rgba(255,201, 211, 0.1)"
+            : "none",
       }}
     >
       <h3>{title}</h3>
