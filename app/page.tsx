@@ -1,13 +1,9 @@
-import Card from "./components/Card/Card";
+import LoginForm from "./components/LoginForm/LoginForm";
 
 export default function page() {
   return (
     <div>
-      <Card
-        variant="elevated"
-        title="Monospace"
-        description="This is the card's description."
-      />
+      <LoginForm />
     </div>
   );
 }

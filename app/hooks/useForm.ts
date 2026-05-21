@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 
 export interface FormState<T> {
   values: T;
@@ -15,7 +15,7 @@ export interface UseFormReturn<T> extends FormState<T> {
   setFieldTouched: (field: keyof T, touched: boolean) => void;
   handleSubmit: (
     onSubmit: (values: T) => Promise<void>,
-  ) => (e: FormEvent) => Promise<void>;
+  ) => (e: React.FormEvent) => Promise<void>;
   reset: () => void;
 }
 
@@ -52,16 +52,24 @@ export function useForm<T extends object>(initialValues: T): UseFormReturn<T> {
   }, []);
 
   const handleSubmit = useCallback(
-    (onSubmit: (values: T) => Promise<void>) =>
-      async (e: FormEvent) => {
-        e.preventDefault();
-        setState((prev) => ({ ...prev, isSubmitting: true }));
-        try {
-          await onSubmit(state.values);
-        } finally {
-          setState((prev) => ({ ...prev, isSubmitting: false }));
-        }
-      },
+    (onsubmit: (values: T) => Promise<void>) => async (e: React.FormEvent) => {
+      e.preventDefault();
+      setState((prev) => ({ ...prev, isSubmitting: true }));
+
+      try {
+        await onsubmit(state.values);
+        setState((prev) => ({ ...prev, isSubmitting: false }));
+      } catch (error) {
+        setState((prev) => ({
+          ...prev,
+          isSubmitting: false,
+          errors: {
+            ...prev.errors,
+            submit: error instanceof Error ? error.message : "Unknown error",
+          },
+        }));
+      }
+    },
     [state.values],
   );
 
@@ -82,5 +90,4 @@ export function useForm<T extends object>(initialValues: T): UseFormReturn<T> {
     handleSubmit,
     reset,
   };
-}
 }
